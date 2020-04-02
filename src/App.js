@@ -2,23 +2,42 @@ import React, { Component } from "react";
 import "./App.css";
 import Person from "./Person/Person";
 
+
 class App extends Component {
   state = {
     persons: [
-      { id: 1, name: "Anthony", age: 30 },
-      { id: 2, name: "Mallory", age: 28 },
-      { id: 3, name: "Ruger", age: 3 },
-      { id: 4, name: "Coco", age: 8 }
+      {
+        id: 1,
+        name: "Anthony",
+        age: 30
+      },
+      {
+        id: 2,
+        name: "Mallory",
+        age: 28
+      },
+      {
+        id: 3,
+        name: "Ruger",
+        age: 3
+      },
+      {
+        id: 4,
+        name: "Coco",
+        age: 8
+      }
     ],
     otherState: "Some other value",
     showPersons: false
   };
 
-  deletePersonHandler = (personIndex) => {
+  deletePersonHandler = personIndex => {
     const persons = [...this.state.persons];
     persons.splice(personIndex, 1);
-    this.setState({persons: persons});
-  }
+    this.setState({
+      persons: persons
+    });
+  };
 
   nameChangedHandler = (event, id) => {
     const personIndex = this.state.persons.findIndex(p => {
@@ -34,22 +53,31 @@ class App extends Component {
     const persons = [...this.state.persons];
     persons[personIndex] = person;
 
-    this.setState( {persons: persons} );
+    this.setState({
+      persons: persons
+    });
   };
 
   togglePersonsHandler = () => {
-      const doesShow = this.state.showPersons;
-      this.setState({showPersons: !doesShow})
+    const doesShow = this.state.showPersons;
+    this.setState({
+      showPersons: !doesShow
+    });
   };
 
   render() {
-    const style = {
-      backgroundColor: "white",
-      font: "inherit",
-      border: "1px solid blue",
-      padding: "8px",
-      cursor: "pointer"
-    };
+    // const style = {
+    //   backgroundColor: "green",
+    //   color: "white",
+    //   font: "inherit",
+    //   border: "1px solid blue",
+    //   padding: "8px",
+    //   cursor: "pointer",
+    //   ":hover": {
+    //     backgroundColor: "lightgreen",
+    //     color: "black"
+    //   }
+    // };
 
     let persons = null;
 
@@ -57,19 +85,41 @@ class App extends Component {
       persons = (
         <div>
           {this.state.persons.map((person, index) => {
-            return <Person name={person.name} age={person.age} click={() => this.deletePersonHandler(index)} key={person.id} changed={(event) => this.nameChangedHandler(event, person.id)}/>
+            return (
+              <Person
+                name={person.name}
+                age={person.age}
+                click={() => this.deletePersonHandler(index)}
+                key={person.id}
+                changed={event => this.nameChangedHandler(event, person.id)}
+              />
+            );
           })}
-      </div>
+        </div>
       );
+
+      // style.backgroundColor = "red";
+      // style[":hover"] = {
+      //   backgroundColor: "salmon",
+      //   color: "black"
+      // };
+    }
+
+    const classes = [];
+    if (this.state.persons.length <= 2) {
+      classes.push("red");
+    }
+
+    if (this.state.persons.length <= 1) {
+      classes.push("bold");
     }
 
     return (
       <div className="App">
-        <h1>Hi, I'm a React App.</h1>
-        <p>This is really working!</p>
-        <button style={style} onClick={this.togglePersonsHandler}>
+        <h1> Hi, I 'm a React App.</h1>
+        <p className={classes.join(" ")}> This is really working! </p>
+        <button className={button} onClick={this.togglePersonsHandler}/>
           Toggle Persons
-        </button>
         {persons}
       </div>
     );
